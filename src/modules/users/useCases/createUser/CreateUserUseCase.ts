@@ -1,23 +1,21 @@
-import { Users } from '@prisma/client';
 import { prisma } from '../../../../prisma/client';
 import { CreateUserDTO } from '../../dtos/CreateUserDTO';
-
 export class CreateUserUseCase {
-  async execute({name, email, password}:CreateUserDTO): Promise<Users> {
+  async execute({name, email, password}:CreateUserDTO): Promise<object> {
     await prisma.users.findUnique({
       where: {
         email: email
       }
     });
-
-    const user = await prisma.users.create({
+    
+    await prisma.users.create({
       data:{
         name,
         email,
         password,
-      }
+      },
     });
 
-    return user;
+    return {message: 'user created succesfully'};
   }
 }
