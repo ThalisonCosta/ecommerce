@@ -32,11 +32,13 @@ CREATE TABLE `users` (
 
 -- CreateTable
 CREATE TABLE `orders` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `quantity` INTEGER NOT NULL,
     `productId` INTEGER NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
 
-    PRIMARY KEY (`productId`, `userId`)
+    UNIQUE INDEX `orders_id_key`(`id`),
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
