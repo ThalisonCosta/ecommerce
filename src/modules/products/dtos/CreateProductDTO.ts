@@ -1,4 +1,5 @@
 export interface CreateProductDTO {
+  userId: string,
   categoryId: number,
   name: string,
   price: number,
