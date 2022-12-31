@@ -1,10 +1,11 @@
 import { prisma } from '../../../../prisma/client';
 
 export class ListOrderByIdUseCase {
-  async execute(id:number):Promise<unknown>{
+  async execute(id:number, userId:string):Promise<unknown>{
     const ordersById = await prisma.orders.findFirst({
       where:{
         id,
+        userId,
       },
       include:{
         product:{
