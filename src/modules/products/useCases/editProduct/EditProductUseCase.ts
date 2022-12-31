@@ -1,24 +1,25 @@
-import { Products } from '@prisma/client';
+import { AppError } from '../../../../errors/AppError';
 import { prisma } from '../../../../prisma/client';
 import { CreateProductDTO } from '../../dtos/CreateProductDTO';
 
 export class EditProductUseCase{
-  async execute(id:number, data:CreateProductDTO):Promise<Omit<Products, 'created_at'>>{
-    const productEdited = await prisma.products.update({
-      where: {
+  async execute(id:number, data:CreateProductDTO, userId:string){
+    const permission = await prisma.products.findMany({
+      where:{
         id,
+        userId
       },
-      data,
-      select:{
-        id:true,
-        categoryId:true,
-        name: true,
-        price: true,
-        image: true,
-        description: true,
-        created_at: false
-      }
     });
-    return productEdited;
+    if(permission.length) {
+      await prisma.products.updateMany({
+        where: {
+          id,
+          userId
+        },
+        data
+      });
+      return data;
+    }
+    throw new AppError('you have no permission', 401);
   }
 }
