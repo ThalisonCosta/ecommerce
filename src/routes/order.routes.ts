@@ -1,18 +1,14 @@
 import { Router } from 'express';
-import { CreateOrderController } from '../modules/orders/useCases/createOrder/CreateOrderController';
-import { DeleteOrderController } from '../modules/orders/useCases/deleteOrder/DeleteOrderController';
-import { ListOrderController } from '../modules/orders/useCases/listOrder/ListOrderController';
-import { ListOrderByIdController } from '../modules/orders/useCases/listOrderById/ListOrderByIdController';
+import { createOrderController } from '../modules/orders/useCases/createOrder/CreateOrderController';
+import { deleteOrderController } from '../modules/orders/useCases/deleteOrder/DeleteOrderController';
+import { listOrderController } from '../modules/orders/useCases/listOrder/ListOrderController';
+import { listOrderByIdController } from '../modules/orders/useCases/listOrderById/ListOrderByIdController';
 
 const orderRoute = Router();
-const createOrderController = new CreateOrderController();
-const listOrderController = new ListOrderController();
-const listOrderByIdController = new ListOrderByIdController();
-const deleteOrderController = new DeleteOrderController();
 
-orderRoute.post('/', createOrderController.handle); 
-orderRoute.get('/', listOrderController.handle);
-orderRoute.get('/:id', listOrderByIdController.handle);
-orderRoute.delete('/:id', deleteOrderController.handle);
+orderRoute.post('/', createOrderController); 
+orderRoute.get('/', listOrderController);
+orderRoute.get('/:id', listOrderByIdController);
+orderRoute.delete('/:id', deleteOrderController);
 
 export { orderRoute };
