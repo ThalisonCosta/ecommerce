@@ -37,7 +37,7 @@ export const editProductUseCase = async (id:number, data:CreateProductDTO, userI
     const productUpdated = {
       categoryId: data.categoryId,
       name: data.name,
-      price: Number(data.price),
+      price:data.price,
       image: image !== undefined ? `${process.env.BASE_URL}uploads/${image}` : undefined,
       description: data.description,
     };
