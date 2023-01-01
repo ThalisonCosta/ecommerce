@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
-import { ListAllProductsUseCase } from './ListAllProductsUseCase';
+import { listAllProductsUseCase } from './ListAllProductsUseCase';
 
-export class ListAllProductsController{
-  async handle(_req:Request, res:Response){
-    const listAllProductsUseCase = new ListAllProductsUseCase();
-    const result = await listAllProductsUseCase.execute();
-    return res.status(200).json(result);
-  }
-}
+export const listAllProductsController = async (_req:Request, res:Response) => {
+  const result = await listAllProductsUseCase();
+  return res.status(200).json(result);
+};
+  

@@ -1,24 +1,19 @@
 import { Router } from 'express';
-import { CreateProductController } from '../modules/products/useCases/createProduct/CreateProductController';
-import { DeleteProductController } from '../modules/products/useCases/deleteProduct/DeleteProductController';
-import { EditProductController } from '../modules/products/useCases/editProduct/EditProductController';
-import { ListAllProductsController } from '../modules/products/useCases/listAllProducts/ListAllProductsController';
-import { ListProductByCategoryController } from '../modules/products/useCases/listProductByCategory/ListProductByCategoryController';
-import { ListProductByIdController } from '../modules/products/useCases/listProductById/ListProductByIdController';
+import { createProductController } from '../modules/products/useCases/createProduct/CreateProductController';
+import { deleteProductController } from '../modules/products/useCases/deleteProduct/DeleteProductController';
+import { editProductController } from '../modules/products/useCases/editProduct/EditProductController';
+import { listAllProductsController } from '../modules/products/useCases/listAllProducts/ListAllProductsController';
+import { listProductByCategoryController } from '../modules/products/useCases/listProductByCategory/ListProductByCategoryController';
+import { listProductByIdController } from '../modules/products/useCases/listProductById/ListProductByIdController';
 import { upload } from '../services/imageUpload';
-const productRoute = Router();
-const createProductController = new CreateProductController();
-const listAllProductsController = new ListAllProductsController();
-const listProductByIdController = new ListProductByIdController();
-const listProductByCategory = new ListProductByCategoryController();
-const editProductController = new EditProductController();
-const deleteProductController = new DeleteProductController();
 
-productRoute.post('/', upload.single('image'), createProductController.handle);
-productRoute.get('/', listAllProductsController.handle);
-productRoute.get('/:id', listProductByIdController.handle);
-productRoute.get('/category/:id', listProductByCategory.handle);
-productRoute.patch('/:id', upload.single('image'),editProductController.handle);
-productRoute.delete('/:id', deleteProductController.handle);
+const productRoute = Router();
+
+productRoute.post('/', upload.single('image'), createProductController);
+productRoute.get('/', listAllProductsController);
+productRoute.get('/:id', listProductByIdController);
+productRoute.get('/category/:id', listProductByCategoryController);
+productRoute.patch('/:id', upload.single('image'),editProductController);
+productRoute.delete('/:id', deleteProductController);
 
 export { productRoute };
