@@ -5,7 +5,7 @@ import { EditProductController } from '../modules/products/useCases/editProduct/
 import { ListAllProductsController } from '../modules/products/useCases/listAllProducts/ListAllProductsController';
 import { ListProductByCategoryController } from '../modules/products/useCases/listProductByCategory/ListProductByCategoryController';
 import { ListProductByIdController } from '../modules/products/useCases/listProductById/ListProductByIdController';
-
+import { upload } from '../services/imageUpload';
 const productRoute = Router();
 const createProductController = new CreateProductController();
 const listAllProductsController = new ListAllProductsController();
@@ -14,11 +14,11 @@ const listProductByCategory = new ListProductByCategoryController();
 const editProductController = new EditProductController();
 const deleteProductController = new DeleteProductController();
 
-productRoute.post('/', createProductController.handle);
+productRoute.post('/', upload.single('image'), createProductController.handle);
 productRoute.get('/', listAllProductsController.handle);
 productRoute.get('/:id', listProductByIdController.handle);
 productRoute.get('/category/:id', listProductByCategory.handle);
-productRoute.patch('/:id', editProductController.handle);
+productRoute.patch('/:id', upload.single('image'),editProductController.handle);
 productRoute.delete('/:id', deleteProductController.handle);
 
 export { productRoute };
