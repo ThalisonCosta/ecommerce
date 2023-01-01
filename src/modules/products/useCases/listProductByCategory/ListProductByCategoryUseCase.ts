@@ -7,6 +7,9 @@ export const listProductByCategoryUseCase = async (id?:number):Promise<unknown> 
     },
     include:{
       category:true
+    },
+    orderBy:{
+      created_at: 'desc'
     }
   });
   return productsFromCategory;
