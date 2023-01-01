@@ -6,13 +6,16 @@ export class CreateUserMiddleware{
   async validate(req:Request, res:Response, next:NextFunction){
     const { name, email, password } = req.body;
 
-    const userExists = await prisma.users.findUnique({
+    const user = await prisma.users.findUnique({
       where: {
         email: email
       }
     });
-    if (userExists){
+    if (user){
       throw new AppError('user already created');
+    }
+    if(!email.includes('@') || !email.includes('.')){
+      throw new AppError('invalid email',401);
     }
 
     if (name.length < 3) {
@@ -22,6 +25,7 @@ export class CreateUserMiddleware{
     if(password.length < 8) {
       throw new AppError('password too short');
     }
+
 
     next();
   }
