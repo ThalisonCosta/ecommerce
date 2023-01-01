@@ -1,32 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../../../../errors/AppError';
-import { prisma } from '../../../../prisma/client';
+import * as check from '../../../../errors/UserError';
 
 export class CreateUserMiddleware{
-  async validate(req:Request, res:Response, next:NextFunction){
-    const { name, email, password } = req.body;
-
-    const user = await prisma.users.findUnique({
-      where: {
-        email: email
-      }
-    });
-    if (user){
-      throw new AppError('user already created');
+  async validate(req:Request, _res:Response, next:NextFunction){
+    if (req.body.email == null || req.body.name == null || req.body.password == null) {
+      throw new AppError('invalid body');
     }
-    if(!email.includes('@') || !email.includes('.')){
-      throw new AppError('invalid email',401);
+    else{
+      const {email, name, password} = req.body;
+      await check.EmailAlreadyExists(email);
+      check.EmailFormat(email);
+      check.NameFormat(name);
+      check.PasswordFormat(password);
     }
-
-    if (name.length < 3) {
-      throw new AppError('name too short');
-    } 
-    
-    if(password.length < 8) {
-      throw new AppError('password too short');
-    }
-
-
     next();
   }
 }

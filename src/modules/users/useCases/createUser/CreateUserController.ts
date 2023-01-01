@@ -8,7 +8,6 @@ export class CreateUserController {
     const createUserUseCase = new CreateUserUseCase();
     const hashPassword = await hash(password, 10);
 
-
     const result = await createUserUseCase.execute({name, email, password:hashPassword});
     return res.status(201).json(result);
   }
