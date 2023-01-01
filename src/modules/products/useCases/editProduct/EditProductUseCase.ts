@@ -13,9 +13,11 @@ export const editProductUseCase = async (id:number, data:CreateProductDTO, userI
 
   if(products.length) {
     if(typeof image !== 'undefined') {
-      unlink(`src/assets/${products[0].image.slice(30, 71)}`, (err) => {
-        if (err) throw err;
-      });
+      if(products[0].image){
+        unlink(`src/assets/${products[0].image.slice(30, 71)}`, (err) => {
+          if (err) throw err;
+        });
+      }    
     }
     await prisma.products.updateMany({
       where: {
@@ -26,13 +28,21 @@ export const editProductUseCase = async (id:number, data:CreateProductDTO, userI
         categoryId: data.categoryId,
         name: data.name,
         price:data.price,
-        image:`${process.env.BASE_URL}uploads/${image}`,
+        image: image !== undefined ? `${process.env.BASE_URL}uploads/${image}` : undefined,
         description:data.description,
         userId
       }
     });
 
-    return data;
+    const productUpdated = {
+      categoryId: data.categoryId,
+      name: data.name,
+      price: Number(data.price),
+      image: image !== undefined ? `${process.env.BASE_URL}uploads/${image}` : undefined,
+      description: data.description,
+    };
+
+    return productUpdated;
   } if(!products.length) {
     throw new AppError('you have no permission', 401);
   }

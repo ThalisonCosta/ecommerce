@@ -21,8 +21,8 @@ export const deleteProductUseCase = async (id:number, userId:string):Promise<Pri
       id
     }      
   });
-
-  if(product.length) {
+  
+  if(product[0].image) {
     unlink(`src/assets/${product[0].image.slice(30,71)}`, (err) => {
       if (err) throw err;
     });
