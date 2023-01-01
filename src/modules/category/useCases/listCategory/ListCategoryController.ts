@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
-import { ListCategoryUseCase } from './ListCategoryUseCase';
+import { listCategoryUseCase } from './ListCategoryUseCase';
 
-export class ListCategoryController {
-  async handle(_req:Request, res:Response){
-    const listCategoryUseCase = new ListCategoryUseCase();
-    const categories = await listCategoryUseCase.execute();
-    return res.status(200).json(categories);
-  }
-}
+export const listCategoryController = async (_req:Request, res:Response) => {
+  const categories = await listCategoryUseCase();
+  return res.status(200).json(categories);
+};

@@ -1,15 +1,12 @@
 import { Router } from 'express';
-import { CreateCategoryController } from '../modules/category/useCases/createCategory/CreateCategoryController';
-import { DeleteCategoryController } from '../modules/category/useCases/deleteCategory/DeleteCategoryController';
-import { ListCategoryController } from '../modules/category/useCases/listCategory/ListCategoryController';
+import { createCategoryController } from '../modules/category/useCases/createCategory/CreateCategoryController';
+import { deleteCategoryController } from '../modules/category/useCases/deleteCategory/DeleteCategoryController';
+import { listCategoryController } from '../modules/category/useCases/listCategory/ListCategoryController';
 
 const categoryRoute = Router();
-const createCategoryController = new CreateCategoryController();
-const listCategoryController = new ListCategoryController();
-const deleteCategoryController = new DeleteCategoryController();
 
-categoryRoute.post('/', createCategoryController.handle);
-categoryRoute.get('/', listCategoryController.handle);
-categoryRoute.delete('/:id', deleteCategoryController.handle);
+categoryRoute.post('/', createCategoryController);
+categoryRoute.get('/', listCategoryController);
+categoryRoute.delete('/:id', deleteCategoryController);
 
 export { categoryRoute };
