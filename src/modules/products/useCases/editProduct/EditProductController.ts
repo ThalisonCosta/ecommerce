@@ -6,7 +6,8 @@ export const editProductController = async (req:Request, res:Response) => {
   const { id } = req.params;
   if(req.headers.authorization){
     const userId = String(decode(req.headers.authorization));
-    const result = await editProductUseCase(Number(id), req.body, userId);
+    const image = req.file?.filename;
+    const result = await editProductUseCase(Number(id), req.body, userId, image);
     return res.status(200).json(result);
   }
 };
