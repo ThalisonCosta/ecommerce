@@ -1,5 +1,6 @@
 import {compare} from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { AppError } from '../../../../errors/AppError';
 import { prisma } from '../../../../prisma/client';
 
 export class UserLoginUseCase {
@@ -15,7 +16,9 @@ export class UserLoginUseCase {
         const refreshToken = jwt.sign({id: user.id}, `${process.env.REFRESH_TOKEN_SECRET}`, {expiresIn: '90d'});
         const accessToken = jwt.sign({ refreshToken }, `${process.env.JWT_KEY}`, {expiresIn:'1800s'});
         return {refreshToken, accessToken};
+      } else {
+        throw new AppError('user not found', 401);
       }
-    }
+    } 
   }
 }
