@@ -1,8 +1,7 @@
-import { NextFunction } from 'express';
 import { prisma } from '../prisma/client';
 import { AppError } from './AppError';
 
-export const EmailAlreadyExists = async(email:string)=>{
+export const emailAlreadyExists = async(email:string)=>{
   const user = await prisma.users.findUnique({
     where: {
       email
@@ -13,19 +12,19 @@ export const EmailAlreadyExists = async(email:string)=>{
   }
 };
   
-export const EmailFormat = (email:string) => {
+export const emailFormat = (email:string) => {
   if(!email.includes('@') || !email.includes('.')){
     throw new AppError('invalid email',401);
   }
 };
   
-export const NameFormat= (name:string) =>{
+export const nameFormat= (name:string) =>{
   if (name.length < 3) {
     throw new AppError('name too short');
   }
 }; 
 
-export const PasswordFormat = (password:string) => {
+export const passwordFormat = (password:string) => {
   if(password.length < 8) {
     throw new AppError('password too short');
   }
