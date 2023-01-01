@@ -6,10 +6,10 @@ export class CreateProductUseCase {
   async execute({categoryId, name, price, image, description, userId}:CreateProductDTO): Promise<Omit<Products, 'userId'>>{
     const product = await prisma.products.create({
       data: {
-        categoryId,
+        categoryId: Number(categoryId),
         name,
         price,
-        image,
+        image: `${process.env.BASE_URL}uploads/${image}`,
         description,
         userId
       },
