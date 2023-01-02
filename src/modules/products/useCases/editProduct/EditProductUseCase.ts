@@ -4,6 +4,13 @@ import { prisma } from '../../../../prisma/client';
 import { CreateProductDTO } from '../../dtos/CreateProductDTO';
 
 export const editProductUseCase = async (id:number, data:CreateProductDTO, userId:string, image?:string) => { 
+  const productExists = await prisma.products.findUnique({
+    where:{
+      id
+    }
+  });
+  if(!productExists){throw new AppError('product not found!', 404);}
+
   const products = await prisma.products.findMany({
     where:{
       id,
