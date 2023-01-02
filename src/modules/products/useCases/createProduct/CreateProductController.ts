@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { AppError } from '../../../../errors/AppError';
 import { prisma } from '../../../../prisma/client';
 import { decode } from '../../../../utils/commom';
+import { bodyLength } from './CreateProductMiddleware';
 import { createProductUseCase } from './CreateProductUseCase';
 
 
@@ -15,10 +16,10 @@ export const createProductController = async (req:Request, res:Response) => {
         id:Number(categoryId)
       }
     });
-
     if(!category){
       throw new AppError('invalid categoryId');
     }else{
+      bodyLength(name, price, description);
       const image = req.file.filename;
       if (req.headers.authorization) {
         const userId = String(decode(req.headers.authorization));
