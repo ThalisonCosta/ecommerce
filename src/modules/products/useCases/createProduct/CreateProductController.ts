@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { AppError } from '../../../../errors/AppError';
+import { bodyLength } from '../../../../errors/ProductsError';
 import { prisma } from '../../../../prisma/client';
 import { decode } from '../../../../utils/commom';
-import { bodyLength } from './CreateProductMiddleware';
 import { createProductUseCase } from './CreateProductUseCase';
 
 
@@ -11,6 +11,7 @@ export const createProductController = async (req:Request, res:Response) => {
     throw new AppError('invalid body');
   } else{
     const {categoryId, name, price, description} = req.body;
+    bodyLength(categoryId,name, price, description);
     const category = await prisma.category.findFirst({
       where:{
         id:Number(categoryId)
@@ -19,7 +20,6 @@ export const createProductController = async (req:Request, res:Response) => {
     if(!category){
       throw new AppError('invalid categoryId');
     }else{
-      bodyLength(name, price, description);
       const image = req.file.filename;
       if (req.headers.authorization) {
         const userId = String(decode(req.headers.authorization));
