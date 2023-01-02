@@ -4,7 +4,13 @@ import { prisma } from '../../../../prisma/client';
 import { unlink } from 'fs';
 
 export const deleteProductUseCase = async (id:number, userId:string):Promise<Prisma.BatchPayload> => {
-    
+  const productExists = await prisma.products.findUnique({
+    where:{
+      id
+    }
+  });
+  if(!productExists){throw new AppError('product not found!', 404);}
+  
   const permission = await prisma.products.findMany({
     where:{
       id,

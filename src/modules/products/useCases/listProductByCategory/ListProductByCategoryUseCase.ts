@@ -1,3 +1,4 @@
+import { AppError } from '../../../../errors/AppError';
 import { prisma } from '../../../../prisma/client';
 
 export const listProductByCategoryUseCase = async (id?:number):Promise<unknown> => {
@@ -12,5 +13,8 @@ export const listProductByCategoryUseCase = async (id?:number):Promise<unknown> 
       created_at: 'desc'
     }
   });
+  if(!productsFromCategory.length){
+    throw new AppError('no products registered',200);
+  }
   return productsFromCategory;
 };
