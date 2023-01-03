@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "server-start": "sudo yarn global add pm2 && yarn build && pm2 start dist/server.js --name=ecommerce",
+    "server-stop": "pm2 stop ecommerce"
   },
   "dependencies": {
     "@prisma/client": "4.8.0",
