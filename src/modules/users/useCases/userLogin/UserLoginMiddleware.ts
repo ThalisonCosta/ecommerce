@@ -20,10 +20,8 @@ export const validateJWT = async (req:Request, res:Response, next:NextFunction) 
   if( authorization != undefined && authorization.startsWith('Bearer') ){
     
     const [_, token] = authorization.split(' ');
-    console.log(token);
     
-    const validToken = verify(token, process.env.JWT_KEY!);
-    console.log(validToken);
+    verify(token, process.env.JWT_KEY!);
     
     next();
   }
