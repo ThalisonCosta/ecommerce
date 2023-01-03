@@ -3,12 +3,13 @@ import { createOrderController } from '../modules/orders/useCases/createOrder/Cr
 import { deleteOrderController } from '../modules/orders/useCases/deleteOrder/DeleteOrderController';
 import { listOrderController } from '../modules/orders/useCases/listOrder/ListOrderController';
 import { listOrderByIdController } from '../modules/orders/useCases/listOrderById/ListOrderByIdController';
+import { validateJWT } from '../modules/users/useCases/userLogin/UserLoginMiddleware';
 
 const orderRoute = Router();
 
-orderRoute.post('/', createOrderController); 
-orderRoute.get('/', listOrderController);
-orderRoute.get('/:id', listOrderByIdController);
-orderRoute.delete('/:id', deleteOrderController);
+orderRoute.post('/', validateJWT, createOrderController); 
+orderRoute.get('/', validateJWT, listOrderController);
+orderRoute.get('/:id', validateJWT, listOrderByIdController);
+orderRoute.delete('/:id', validateJWT,  deleteOrderController);
 
 export { orderRoute };
