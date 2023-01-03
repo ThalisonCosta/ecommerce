@@ -1,9 +1,15 @@
-import { Products } from '@prisma/client';
+import { Products} from '@prisma/client';
 import { prisma } from '../../../../prisma/client';
 
-type noUserId = Omit<Products, 'userId'>
+type productNoUserId = Omit<Products, 'userId'>;
+interface Product {
+  total: number,
+  products: productNoUserId[]
 
-export const listAllProductsUseCase = async ():Promise<noUserId[]> => {
+
+}
+
+export const listAllProductsUseCase = async ():Promise<Product> => {
   const products = await prisma.products.findMany({
     orderBy: {
       created_at: 'desc'
@@ -24,5 +30,8 @@ export const listAllProductsUseCase = async ():Promise<noUserId[]> => {
       }
     }
   });
-  return products;
+  return {
+    total: products.length,
+    products: products
+  };
 };

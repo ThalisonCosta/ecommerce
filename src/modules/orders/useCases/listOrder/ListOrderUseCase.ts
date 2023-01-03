@@ -13,5 +13,8 @@ export const listOrderUseCase = async (userId:string): Promise<Orders[] | object
   if(!orders.length){
     return {message:'no orders registered'};
   }
-  return orders;
+  return {
+    total:orders.length,
+    orders: orders
+  };
 };

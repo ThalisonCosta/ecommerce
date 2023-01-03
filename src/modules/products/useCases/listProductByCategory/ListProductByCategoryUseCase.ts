@@ -1,7 +1,16 @@
+import { Category, Products } from '@prisma/client';
 import { AppError } from '../../../../errors/AppError';
 import { prisma } from '../../../../prisma/client';
 
-export const listProductByCategoryUseCase = async (id?:number):Promise<unknown> => {
+
+type ProductsCategory = {
+  total: number,
+  products: Products | unknown & {
+    category: Category
+  }[]
+}
+
+export const listProductByCategoryUseCase = async (id?:number):Promise<ProductsCategory> => {
   const productsFromCategory = await prisma.products.findMany({
     where:{
       categoryId: id
@@ -16,5 +25,8 @@ export const listProductByCategoryUseCase = async (id?:number):Promise<unknown> 
   if(!productsFromCategory.length){
     throw new AppError('no products registered',200);
   }
-  return productsFromCategory;
+  return {
+    total: productsFromCategory.length,
+    products: productsFromCategory
+  };
 };

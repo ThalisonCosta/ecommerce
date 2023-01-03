@@ -7,5 +7,8 @@ export const listCategoryUseCase = async ():Promise<Omit<Category, 'id' | 'name'
       product:true
     }
   });
-  return categories;
+  return {
+    total:categories.length,
+    categories: categories
+  };
 };
