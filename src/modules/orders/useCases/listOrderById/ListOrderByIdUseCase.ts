@@ -32,5 +32,9 @@ export const listOrderByIdUseCase = async (id:number, userId:string):Promise<unk
       }
     }
   });
+  if(ordersById == null){
+    throw new AppError('you have no access to this item', 401);
+  }
+  
   return ordersById;
 };
