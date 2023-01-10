@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "migrate": "yarn prisma migrate dev",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "server-start": "sudo yarn global add pm2 && yarn build && pm2 start dist/server.js --name=ecommerce",
