@@ -1,13 +1,16 @@
+import cors from 'cors';
 import './config/env';
 import 'express-async-errors';
 import morgan from 'morgan';
 import express, {NextFunction, Request, Response} from 'express';
 import { routes } from './routes';
-import cors from 'cors';
 import { AppError } from './errors/AppError';
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['POST', 'GET', 'PATCH', 'DELETE']
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(routes);
